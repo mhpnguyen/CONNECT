@@ -38,6 +38,7 @@ import gov.hhs.fha.nhinc.nhinccomponentauditrepository.AuditRepositoryManagerSec
 import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
 import gov.hhs.fha.nhinc.nhinclib.NullChecker;
 import gov.hhs.fha.nhinc.webserviceproxy.WebServiceProxyHelper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,39 +52,66 @@ public class AuditRepositoryProxyWebServiceSecuredImpl implements AuditRepositor
     private static final Logger LOG = LoggerFactory.getLogger(AuditRepositoryProxyWebServiceSecuredImpl.class);
     private final WebServiceProxyHelper oProxyHelper = new WebServiceProxyHelper();
     private final String invokeMethodName = "logEvent";
+    private AcknowledgementType result;
+    private int counter = 0;
+
+    /**
+     * 
+     */
+    public AuditRepositoryProxyWebServiceSecuredImpl() {
+       LOG.debug("version 4 Event ID--counter {}",counter++);
+       synchronized (result) {
+           result = new AcknowledgementType();
+        }
+       
+    }
+
 
     @Override
-    public AcknowledgementType auditLog(LogEventRequestType request, AssertionType assertion) {
+    public  AcknowledgementType auditLog(LogEventRequestType request, AssertionType assertion) {
         LOG.debug("Entering AuditRepositoryProxyWebServiceSecured.auditLog(...)");
-        AcknowledgementType result = new AcknowledgementType();
+       // AcknowledgementType result = new AcknowledgementType();
 
         if (request.getAuditMessage() == null) {
             LOG.error("Audit Request Message is null");
-            return result;
+            synchronized (result) {
+                return result;
+            }
+            
         }
+        /*long startTime = System.nanoTime();
+        String requestId = request.getRequestMessageId();*/
         try {
             String url = oProxyHelper.getUrlLocalHomeCommunity(NhincConstants.AUDIT_REPO_SECURE_SERVICE_NAME);
-
+            /*LOG.debug("version 4 Event ID start at {}-->Id {}",startTime,requestId);*/
             if (NullChecker.isNotNullish(url)) {
                 ServicePortDescriptor<AuditRepositoryManagerSecuredPortType> portDescriptor
                     = new AuditRepositorySecuredServicePortDescriptor();
 
                 CONNECTClient<AuditRepositoryManagerSecuredPortType> client = CONNECTCXFClientFactory.getInstance()
                     .getCONNECTClientSecured(portDescriptor, url, assertion);
-
-                result = (AcknowledgementType) client.invokePort(AuditRepositoryManagerSecuredPortType.class,
-                    invokeMethodName, createLogSecureEventRequestType(request));
+                synchronized (result) {
+                    result = (AcknowledgementType) client.invokePort(AuditRepositoryManagerSecuredPortType.class,
+                            invokeMethodName, createLogSecureEventRequestType(request));
+                }
+               
+               /* long total = System.nanoTime() - startTime;
+                LOG.debug("Event ID start at {}->Id {} -Total time in db {}",startTime,requestId,TimeUnit.SECONDS.convert(total, TimeUnit.NANOSECONDS));*/
             }
         } catch (Exception e) {
+           /* LOG.debug("Event ID start at {}-->Id{} -Fail around {}",startTime,requestId,TimeUnit.SECONDS.convert(System.nanoTime() - startTime, TimeUnit.NANOSECONDS));*/
             LOG.error("Failed to call the web service({}). An unexpected exception occurred. Exception: {}",
                 NhincConstants.AUDIT_REPO_SECURE_SERVICE_NAME, e.getLocalizedMessage(), e);
         }
 
         LOG.debug("In AuditRepositoryProxyWebServiceSecured.auditLog(...) - completed called to ConnectionManager to "
             + "retrieve endpoint.");
-
-        return result;
+        synchronized (result) {
+            return result;
+        }
+      
     }
+    
 
     private LogEventSecureRequestType createLogSecureEventRequestType(LogEventRequestType request) {
         LogEventSecureRequestType secureRequest = new LogEventSecureRequestType();
