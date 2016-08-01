@@ -30,7 +30,9 @@ import gov.hhs.fha.nhinc.admingui.constant.NavigationConstant;
 import gov.hhs.fha.nhinc.admingui.services.exception.SanitizationException;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.faces.application.ResourceHandler;
 import javax.servlet.Filter;
@@ -43,7 +45,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.owasp.esapi.ESAPI;
-import org.owasp.esapi.errors.IntrusionException;
+import org.owasp.esapi.errors.ConfigurationException;
+import org.owasp.validator.html.AntiSamy;
+import org.owasp.validator.html.CleanResults;
+import org.owasp.validator.html.Policy;
+import org.owasp.validator.html.PolicyException;
+import org.owasp.validator.html.ScanException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +60,11 @@ import org.slf4j.LoggerFactory;
  */
 public class SanitizationFilter implements Filter{
     private static final Logger LOG = LoggerFactory.getLogger(SanitizationFilter.class);
+    /**
+     * AntiSammy policy
+     */
+    private AntiSamy antiSamy;
+    private Policy antiSamyPolicy = null;
     /* (non-Javadoc)
      * @see javax.servlet.Filter#destroy()
      */
@@ -109,31 +121,69 @@ public class SanitizationFilter implements Filter{
      */
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-       LOG.debug("init my own filter");
+        LOG.debug("init my own filter");
+        // copy code from HTMLValidationRule
+        final URL urlResource = loadResource("antisamy-esapi.xml");
+        if (urlResource != null) {
+            try {
+
+                antiSamyPolicy = Policy.getInstance(urlResource);
+                antiSamy = new AntiSamy(antiSamyPolicy);
+            } catch (PolicyException e) {
+                throw new ConfigurationException("Couldn't parse antisamy policy", e);
+            }
+        } else {
+            throw new ConfigurationException("Unable to locate antisamy-esapi.xml");
+        }
     }
 
-    private static void checkHeaders(final HttpServletRequest request) throws SanitizationException {
+    private void checkHeaders(final HttpServletRequest request) throws SanitizationException {
         final Enumeration<String> headerNames = request.getHeaderNames();
         LOG.debug("About to check header malicious code");
         while (headerNames.hasMoreElements()) {
             final String name = headerNames.nextElement();
             final String value = request.getHeader(name);
             try {
-                boolean isValid = ESAPI.validator().isValidInput("HTTP header value: " + value, value,
-                        "HTTPHeaderValue", 200, true);
-                if (!isValid) {
+                CleanResults result = antiSamy.scan(value);
+                List<String>errorMsgList = result.getErrorMessages();
+                if (!errorMsgList.isEmpty()) {
                     StringBuilder strBuilder = new StringBuilder();
                     strBuilder.append("Detect malicious code -->orignal name/values: ");
                     strBuilder.append(name);
                     strBuilder.append("/");
                     strBuilder.append(value);
+                    strBuilder.append("--->");
+                    for (String msg: errorMsgList){
+                        strBuilder.append(msg);
+                        strBuilder.append("\n");
+                    }
                     LOG.error(strBuilder.toString());
                     throw new SanitizationException(strBuilder.toString());
                 }
-            } catch (IntrusionException ex) {
+            } catch (ScanException | PolicyException ex) {
                 throw new SanitizationException(ex);
             }
         }
         LOG.debug("End of checking header malicious code");
+    }
+    /**
+     * Load Resource from Thread Context Loader/ classloader and classpath
+     * Adop from DefaultSecurityConfiguration class
+     * @param fileName
+     * @return
+     */
+    private URL loadResource(String fileName) {
+        URL urlResource = null;
+        ClassLoader[] loaders = new ClassLoader[] { Thread.currentThread().getContextClassLoader(),
+                ClassLoader.getSystemClassLoader(), this.getClass().getClassLoader() };
+        for (int i = 0; i < loaders.length; i++) {
+            if (loaders[i] != null) {
+                urlResource = loaders[i].getResource(fileName);
+                if (urlResource != null) {
+                    break;
+                }
+            }
+        }
+        return urlResource;
     }
     }
