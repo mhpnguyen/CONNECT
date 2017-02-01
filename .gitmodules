@@ -1,0 +1,6 @@
+[submodule "Common-Types"]
+	path = Common-Types
+	url = https://github.com/mhpnguyen/Common-Types
+[submodule "CONNECT-Webservices"]
+	path = CONNECT-Webservices
+	url = https://github.com/mhpnguyen/CONNECT-Webservices
