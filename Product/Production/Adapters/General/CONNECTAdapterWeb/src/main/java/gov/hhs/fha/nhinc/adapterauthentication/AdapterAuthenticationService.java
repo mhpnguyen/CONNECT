@@ -26,6 +26,9 @@
  */
 package gov.hhs.fha.nhinc.adapterauthentication;
 
+import gov.hhs.fha.nhinc.adapterauthentication.proxy.AdapterAuthenticationProxy;
+import gov.hhs.fha.nhinc.adapterauthentication.proxy.AdapterAuthenticationProxyObjectFactory;
+
 import gov.hhs.fha.nhinc.common.nhinccommonadapter.AuthenticateUserRequestType;
 import gov.hhs.fha.nhinc.common.nhinccommonadapter.AuthenticateUserResponseType;
 import javax.xml.ws.BindingType;
@@ -39,7 +42,7 @@ import org.slf4j.LoggerFactory;
  */
 @BindingType(value = SOAPBinding.SOAP12HTTP_BINDING)
 public class AdapterAuthenticationService
-        implements gov.hhs.fha.nhinc.adapterauthentication.AdapterAuthenticationPortType {
+implements gov.hhs.fha.nhinc.adapterauthentication.AdapterAuthenticationPortType {
 
     private static final Logger LOG = LoggerFactory.getLogger(AdapterAuthenticationService.class);
 
@@ -55,13 +58,15 @@ public class AdapterAuthenticationService
     public AuthenticateUserResponseType authenticateUser(AuthenticateUserRequestType authenticateUserRequest) {
         AuthenticateUserResponseType authResp = new AuthenticateUserResponseType();
 
-        AdapterAuthenticationImpl adapterAuthImpl = new AdapterAuthenticationImpl();
+        // AdapterAuthenticationImpl adapterAuthImpl = new AdapterAuthenticationImpl();
+        AdapterAuthenticationProxyObjectFactory factory = new AdapterAuthenticationProxyObjectFactory();
+        AdapterAuthenticationProxy adapterAuthImpl = factory.getAdapterAuthenticationProxy();
 
         try {
             authResp = adapterAuthImpl.authenticateUser(authenticateUserRequest);
         } catch (Exception ex) {
             String message = "Error occurred calling AdapterAuthenticationImpl.authenticateUser.  Error: "
-                    + ex.getMessage();
+                + ex.getMessage();
             LOG.error(message, ex);
             throw new RuntimeException(message, ex);
         }

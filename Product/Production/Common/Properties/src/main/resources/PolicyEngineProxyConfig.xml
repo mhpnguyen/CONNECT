@@ -76,13 +76,7 @@
         <meta key="impltype" value="noop"/>
     </bean>
 
-    <!-- Java Implementation of policyengine as per XACML specification-->
-    <bean lazy-init="true" class="gov.hhs.fha.nhinc.policyengine.adapter.pdp.proxy.AdapterPDPProxyJavaImpl" id="adapterpdpjava" name="adapterpdpjava">
-        <meta key="impltype" value="java"/>
-    </bean>
-
-    <!-- OpenSSO Client Implementation -->
-    <bean lazy-init="true" class="gov.hhs.fha.nhinc.policyengine.adapter.pdp.proxy.AdapterPDPProxyOpenSSOClientImpl" id="adapterpdpopenssoclient" name="adapterpdpopenssoclient" />
+    
 
     <!--
         Beans defined for adapterpep

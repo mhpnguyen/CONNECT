@@ -26,7 +26,6 @@
  */
 package gov.hhs.fha.nhinc.adapterauthentication.proxy;
 
-import gov.hhs.fha.nhinc.adapterauthentication.AdapterAuthenticationImpl;
 import gov.hhs.fha.nhinc.common.nhinccommonadapter.AuthenticateUserRequestType;
 import gov.hhs.fha.nhinc.common.nhinccommonadapter.AuthenticateUserResponseType;
 import org.slf4j.Logger;
@@ -52,13 +51,15 @@ public class AdapterAuthenticationJavaProxy implements AdapterAuthenticationProx
 
         AuthenticateUserResponseType authResp = new AuthenticateUserResponseType();
 
-        AdapterAuthenticationImpl authImpl = new AdapterAuthenticationImpl();
+        // AdapterAuthenticationImpl authImpl = new AdapterAuthenticationImpl();
 
+        AdapterAuthenticationProxyObjectFactory factory = new AdapterAuthenticationProxyObjectFactory();
+        AdapterAuthenticationProxy authImpl = factory.getAdapterAuthenticationProxy();
         try {
             authResp = authImpl.authenticateUser(authenticateUserRequest);
         } catch (Exception ex) {
             String message = "Error occurred calling AdapterAuthenticationJavaProxy.authenticateUser.  Error: "
-                    + ex.getMessage();
+                + ex.getMessage();
             LOG.error(message, ex);
             throw new RuntimeException(message, ex);
         }

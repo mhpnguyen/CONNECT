@@ -39,11 +39,6 @@
             <artifactId>log4j</artifactId>
         </dependency>
 
-        <!-- Security -->
-        <dependency>
-            <groupId>org.forgerock.openam</groupId>
-            <artifactId>clientsdk</artifactId>
-            <scope>provided</scope>
-        </dependency>
+        
     </dependencies>
 </project>

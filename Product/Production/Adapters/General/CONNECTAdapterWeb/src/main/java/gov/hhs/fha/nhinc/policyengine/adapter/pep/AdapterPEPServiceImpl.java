@@ -26,6 +26,9 @@
  */
 package gov.hhs.fha.nhinc.policyengine.adapter.pep;
 
+import gov.hhs.fha.nhinc.policyengine.adapter.pep.proxy.AdapterPEPProxy;
+import gov.hhs.fha.nhinc.policyengine.adapter.pep.proxy.AdapterPEPProxyObjectFactory;
+
 import gov.hhs.fha.nhinc.common.nhinccommon.AssertionType;
 import gov.hhs.fha.nhinc.common.nhinccommonadapter.CheckPolicyResponseType;
 import javax.xml.ws.WebServiceContext;
@@ -39,9 +42,9 @@ import org.slf4j.LoggerFactory;
 public class AdapterPEPServiceImpl {
     private static final Logger LOG = LoggerFactory.getLogger(AdapterPEPServiceImpl.class);
 
-    protected AdapterPEPImpl getAdapterPEPImpl() {
-        return new AdapterPEPImpl();
-    }
+    /*
+     * protected AdapterPEPProxy getAdapterPEPImpl() { return new AdapterPEPImpl(); }
+     */
 
     protected void loadAssertion(AssertionType assertion, WebServiceContext wsContext) throws Exception {
         // TODO: Extract message ID from the web service context for logging.
@@ -55,11 +58,13 @@ public class AdapterPEPServiceImpl {
      * @return The xacml response which contains the access decision
      */
     public gov.hhs.fha.nhinc.common.nhinccommonadapter.CheckPolicyResponseType checkPolicy(
-            gov.hhs.fha.nhinc.common.nhinccommonadapter.CheckPolicyRequestType checkPolicyRequest,
-            WebServiceContext context) {
+        gov.hhs.fha.nhinc.common.nhinccommonadapter.CheckPolicyRequestType checkPolicyRequest,
+        WebServiceContext context) {
         CheckPolicyResponseType checkPolicyResp;
 
-        AdapterPEPImpl adapterPEPImpl = getAdapterPEPImpl();
+        // AdapterPEPImpl adapterPEPImpl = getAdapterPEPImpl();
+        AdapterPEPProxyObjectFactory factory = new AdapterPEPProxyObjectFactory();
+        AdapterPEPProxy adapterPEPImpl = factory.getAdapterPEPProxy();
 
         try {
             AssertionType assertion = checkPolicyRequest.getAssertion();

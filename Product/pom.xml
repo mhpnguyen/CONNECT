@@ -675,17 +675,7 @@
         <groupId>org.bouncycastle</groupId>
         <artifactId>bcprov-jdk15</artifactId>
         <version>1.45</version>
-      </dependency>
-      <dependency>
-        <groupId>org.forgerock.openam</groupId>
-        <artifactId>clientsdk</artifactId>
-        <version>${openam.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.forgerock.openam</groupId>
-        <artifactId>fedlib</artifactId>
-        <version>${openam.version}</version>
-      </dependency>
+      </dependency>      
       <dependency>
         <groupId>com.sun.identity</groupId>
         <artifactId>opensso</artifactId>
@@ -863,7 +853,7 @@
         <groupId>org.json</groupId>
         <artifactId>json</artifactId>
         <version>20090211</version>
-        <scope>provided</scope>
+        <!--<scope>provided</scope>-->
       </dependency>
 
       <!-- Legacy JSF -->
@@ -1153,14 +1143,7 @@
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
-    </repository>
-    <repository>
-      <id>forgerock</id>
-      <url>http://maven.forgerock.org/repo/releases</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
+    </repository>   
     <repository>
       <id>sonatype-snapshots</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots/</url>

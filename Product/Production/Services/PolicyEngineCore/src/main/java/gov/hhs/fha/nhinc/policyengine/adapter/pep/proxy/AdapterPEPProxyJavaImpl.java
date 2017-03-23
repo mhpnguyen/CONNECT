@@ -29,7 +29,6 @@ package gov.hhs.fha.nhinc.policyengine.adapter.pep.proxy;
 import gov.hhs.fha.nhinc.common.nhinccommon.AssertionType;
 import gov.hhs.fha.nhinc.common.nhinccommonadapter.CheckPolicyRequestType;
 import gov.hhs.fha.nhinc.common.nhinccommonadapter.CheckPolicyResponseType;
-import gov.hhs.fha.nhinc.policyengine.adapter.pep.AdapterPEPImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,8 +50,9 @@ public class AdapterPEPProxyJavaImpl implements AdapterPEPProxy {
         LOG.trace("Begin AdapterPEPProxyJavaImpl.checkPolicy");
         CheckPolicyResponseType checkPolicyResponse = new CheckPolicyResponseType();
 
-        AdapterPEPImpl pepImpl = new AdapterPEPImpl();
-
+        // AdapterPEPImpl pepImpl = new AdapterPEPImpl();
+        AdapterPEPProxyObjectFactory factory = new AdapterPEPProxyObjectFactory();
+        AdapterPEPProxy pepImpl = factory.getAdapterPEPProxy();
         try {
             checkPolicyResponse = pepImpl.checkPolicy(checkPolicyRequest, assertion);
         } catch (Exception ex) {
