@@ -48,7 +48,11 @@
             </entry>
             <entry key="ws-security.enable.timestamp.cache" value="false" />
         </jaxws:properties>
+        <jaxws:outInterceptors>
+            <ref bean="soapHeaderDQAdapterOutInterceptor" />
+        </jaxws:outInterceptors>
     </jaxws:endpoint>
 
     <bean id="SOAPHeaderHandler" class="gov.hhs.fha.nhinc.callback.SOAPHeaderHandler" />
+    <bean id="soapHeaderDQAdapterOutInterceptor" class="gov.hhs.fha.nhinc.docquery.adapter.interceptors.SoapHeaderDQAdapterOutInterceptor"/>
 </beans>
