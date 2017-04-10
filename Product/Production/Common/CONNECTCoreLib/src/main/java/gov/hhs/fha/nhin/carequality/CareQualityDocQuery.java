@@ -3,6 +3,8 @@
  */
 package gov.hhs.fha.nhin.carequality;
 
+import gov.hhs.fha.nhinc.common.carequality.AccessDenialType;
+
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 
 /**
@@ -10,20 +12,23 @@ import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
  *
  */
 public class CareQualityDocQuery {
-    private CareQualityDummy careQualitySoapHeader;
+    //private CareQualityDummy careQualitySoapHeader;
+    private AccessDenialType careQualitySoapHeader;
     private AdhocQueryResponse adhocQueryResponse;
+
+
 
     /**
      * @return the careQualitySoapHeader
      */
-    public CareQualityDummy getCareQualitySoapHeader() {
+    public AccessDenialType getCareQualitySoapHeader() {
         return careQualitySoapHeader;
     }
 
     /**
      * @param careQualitySoapHeader the careQualitySoapHeader to set
      */
-    public void setCareQualitySoapHeader(CareQualityDummy careQualitySoapHeader) {
+    public void setCareQualitySoapHeader(AccessDenialType careQualitySoapHeader) {
         this.careQualitySoapHeader = careQualitySoapHeader;
     }
 

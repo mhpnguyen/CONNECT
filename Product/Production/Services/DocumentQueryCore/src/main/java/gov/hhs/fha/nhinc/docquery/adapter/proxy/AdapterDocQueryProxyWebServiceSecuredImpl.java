@@ -26,11 +26,10 @@
  */
 package gov.hhs.fha.nhinc.docquery.adapter.proxy;
 
-import org.w3c.dom.Element;
 import gov.hhs.fha.nhin.carequality.CareQualityDocQuery;
-import gov.hhs.fha.nhin.carequality.CareQualityDummy;
 import gov.hhs.fha.nhinc.adapterdocquerysecured.AdapterDocQuerySecuredPortType;
 import gov.hhs.fha.nhinc.aspect.AdapterDelegationEvent;
+import gov.hhs.fha.nhinc.common.carequality.AccessDenialType;
 import gov.hhs.fha.nhinc.common.nhinccommon.AssertionType;
 import gov.hhs.fha.nhinc.docquery.adapter.proxy.description.AdapterDocQuerySecuredServicePortDescriptor;
 import gov.hhs.fha.nhinc.docquery.aspect.AdhocQueryRequestDescriptionBuilder;
@@ -40,7 +39,9 @@ import gov.hhs.fha.nhinc.messaging.client.CONNECTClientFactory;
 import gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor;
 import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
 import gov.hhs.fha.nhinc.nhinclib.NullChecker;
+import gov.hhs.fha.nhinc.transform.marshallers.Marshaller;
 import java.util.Map;
+import javax.xml.bind.JAXBElement;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import org.apache.cxf.endpoint.Client;
@@ -48,6 +49,7 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.headers.Header;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -82,7 +84,7 @@ public class AdapterDocQueryProxyWebServiceSecuredImpl extends BaseAdapterDocQue
         CareQualityDocQuery queryResponse = new CareQualityDocQuery();
         String url;
         try {
-            LOG.debug("Prepare to call docQuery Adapter");
+            LOG.debug("Prepare to call docQuery Adapter version 222-minh");
             // get the Adopter Endpoint URL
             url = getEndPointFromConnectionManagerByAdapterAPILevel(assertion,
                 NhincConstants.ADAPTER_DOC_QUERY_SECURED_SERVICE_NAME);
@@ -107,13 +109,12 @@ public class AdapterDocQueryProxyWebServiceSecuredImpl extends BaseAdapterDocQue
                     Object careQuality = responseContext.get(NhincConstants.CARE_QUALITY_KEY);
                     LOG.debug("Done retrieving adapter doc query repsonse");
                     if (careQuality != null) {
-                        // Element element = (Element) careQuality;
                         Header element = (Header) careQuality;
-                        String eleVal = ((Element) element.getObject()).getFirstChild().getNodeValue();
-                        LOG.debug("Respnse from adapter client version 1 {}", eleVal);
-                        CareQualityDummy dummySoapHeader = new CareQualityDummy();
-                        dummySoapHeader.setReason(eleVal);
-                        queryResponse.setCareQualitySoapHeader(dummySoapHeader);
+                        JAXBElement<AccessDenialType> jaxbElement = (JAXBElement<AccessDenialType>) new Marshaller()
+                        .unmarshal(
+                            (Element) element.getObject(), "gov.hhs.fha.nhinc.common.carequality");
+
+                        queryResponse.setCareQualitySoapHeader(jaxbElement.getValue());
                     }
 
                 }

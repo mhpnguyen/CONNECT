@@ -74,7 +74,7 @@ public class SoapResponseInInterceptor extends AbstractSoapInterceptor {
                     responseMessageId = element.getFirstChild().getNodeValue();
                 }
                 // retrieve soapheader for carequality and store inside soapMessage
-                if ("dummy".equalsIgnoreCase(soapHeaderName)) {
+                if ("AccessDenial".equalsIgnoreCase(soapHeaderName)) {
                     // Element element = (Element) header.getObject();
                     message.put(NhincConstants.CARE_QUALITY_KEY, header);
                 }

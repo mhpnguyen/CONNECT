@@ -5,7 +5,9 @@ package gov.hhs.fha.nhin.carequality;
 
 /**
  * @author mpnguyen temporary only. This class will be generated from schema
+ * @deprecated
  */
+@Deprecated
 public class CareQualityDummy {
 
     private String reason;

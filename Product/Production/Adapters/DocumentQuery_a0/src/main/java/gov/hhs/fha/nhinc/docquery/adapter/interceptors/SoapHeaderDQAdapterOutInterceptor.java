@@ -3,14 +3,17 @@
  */
 package gov.hhs.fha.nhinc.docquery.adapter.interceptors;
 
-import javax.xml.bind.JAXBException;
+import org.apache.cxf.jaxb.JAXBDataBinding;
 
-import javax.xml.namespace.QName;
+import gov.hhs.fha.nhinc.common.carequality.AccessDenialType;
+import gov.hhs.fha.nhinc.common.carequality.ObjectFactory;
+import gov.hhs.fha.nhinc.common.carequality.ReasonType;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.interceptor.SoapOutInterceptor;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.interceptor.Fault;
-import org.apache.cxf.jaxb.JAXBDataBinding;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
@@ -18,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Intercept soap message before return response back to clients
+ * Dummy Intercept soap message before return response back to clients
  *
  * @author mpnguyen
  *
@@ -41,12 +44,22 @@ public class SoapHeaderDQAdapterOutInterceptor extends AbstractPhaseInterceptor<
     @Override
     public void handleMessage(Message message) throws Fault {
 
-        LOG.debug("Starting to hit adapter reponse version 1");
+        LOG.debug("Starting to hit adapter reponse version 2");
         SoapMessage soapMsg = (SoapMessage) message;
         try {
-            Header dummyHeader = new Header(new QName("uri:carequality", "dummy"), "decapitated",
-                new JAXBDataBinding(String.class));
-            soapMsg.getHeaders().add(dummyHeader);
+            AccessDenialType careQualityDenial = new AccessDenialType();
+
+            ReasonType reasonType = new ReasonType();
+            reasonType.setLang("EN");
+            reasonType.setValue("Reason Type Value: hhhhh");
+            careQualityDenial.setReason(reasonType);
+
+
+            JAXBElement<AccessDenialType> accessDeniedElement = new ObjectFactory()
+            .createAccessDenial(careQualityDenial);
+            Header header = new Header(accessDeniedElement.getName(), accessDeniedElement, new JAXBDataBinding(
+                AccessDenialType.class));
+            soapMsg.getHeaders().add(header);
         } catch (JAXBException e) {
             LOG.error("Unable to add new dummy header {}", e.getLocalizedMessage(), e);
         }
