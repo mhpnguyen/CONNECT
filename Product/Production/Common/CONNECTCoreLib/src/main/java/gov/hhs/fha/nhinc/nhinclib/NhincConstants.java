@@ -526,7 +526,7 @@ public class NhincConstants {
     public static final String PATIENT_CORR_HIBERNATE_BEAN = "patientCorrHibernateUtil";
     public static final String MSG_MONITOR_HIBERNATE_BEAN = "msgMonitorHibernateUtil";
     public static final String DIRECT_CONFIG_HIBERNATE_BEAN = "directConfigHibernateUtil";
-    
+
     public static final String CUSTOM_HTTP_HEADERS = "customHttpHeaders";
     public static final String KEEP_ALIVE_PROP = "connectionKeepAlive";
     public static final String READ_HTTP_HEADERS = "readHttpHeaders";
@@ -542,6 +542,9 @@ public class NhincConstants {
      * Default alias used to retrieve the private key to sign the SAML assertion and endorsing supporting token.
      */
     public static final String DEFAULT_CLIENT_KEY_ALIAS = "gateway";
+
+    // CareQuality SoapHeader
+    public static final String CARE_QUALITY_KEY = "CareQuality";
 
     private NhincConstants() {
     }

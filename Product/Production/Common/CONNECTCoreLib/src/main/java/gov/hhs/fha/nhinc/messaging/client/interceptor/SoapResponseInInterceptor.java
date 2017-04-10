@@ -67,9 +67,16 @@ public class SoapResponseInInterceptor extends AbstractSoapInterceptor {
 
         if (headers != null) {
             for (Header header : headers) {
-                if (header.getName().getLocalPart().equalsIgnoreCase(NhincConstants.HEADER_MESSAGEID)) {
+                String soapHeaderName = header.getName().getLocalPart();
+                LOG.debug("SoapHeader {} ", soapHeaderName);
+                if (soapHeaderName.equalsIgnoreCase(NhincConstants.HEADER_MESSAGEID)) {
                     Element element = (Element) header.getObject();
                     responseMessageId = element.getFirstChild().getNodeValue();
+                }
+                // retrieve soapheader for carequality and store inside soapMessage
+                if ("dummy".equalsIgnoreCase(soapHeaderName)) {
+                    // Element element = (Element) header.getObject();
+                    message.put(NhincConstants.CARE_QUALITY_KEY, header);
                 }
             }
         }
@@ -94,7 +101,7 @@ public class SoapResponseInInterceptor extends AbstractSoapInterceptor {
             if (responseMsgId != null && currentMessage != null) {
 
                 List<String> responseMsgIdList = (List<String>) currentMessage.getExchange()
-                        .get(NhincConstants.RESPONSE_MESSAGE_ID_LIST_KEY);
+                    .get(NhincConstants.RESPONSE_MESSAGE_ID_LIST_KEY);
                 if (responseMsgIdList == null) {
                     responseMsgIdList = new ArrayList<>();
                 }

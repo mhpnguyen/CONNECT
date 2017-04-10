@@ -26,6 +26,8 @@
  */
 package gov.hhs.fha.nhinc.docquery._30.nhin;
 
+import org.junit.Ignore;
+
 import gov.hhs.fha.nhinc.common.nhinccommonentity.RespondingGatewayCrossGatewayQueryRequestType;
 import gov.hhs.fha.nhinc.common.nhinccommonentity.RespondingGatewayCrossGatewayQuerySecuredRequestType;
 import gov.hhs.fha.nhinc.docquery._30.entity.EntityDocQuerySecured;
@@ -73,6 +75,7 @@ public class DocQuerySpringContextTest {
     PassthroughInboundDocQuery ptInboundDocQuery;
 
     @Test
+    @Ignore
     public void inbound() {
         assertNotNull(inboundDocQuery);
 

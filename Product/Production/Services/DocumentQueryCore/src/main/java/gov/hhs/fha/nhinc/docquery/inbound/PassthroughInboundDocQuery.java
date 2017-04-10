@@ -26,6 +26,9 @@
  */
 package gov.hhs.fha.nhinc.docquery.inbound;
 
+import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
+
+import gov.hhs.fha.nhin.carequality.CareQualityDocQuery;
 import gov.hhs.fha.nhinc.common.nhinccommon.AssertionType;
 import gov.hhs.fha.nhinc.docquery.adapter.proxy.AdapterDocQueryProxy;
 import gov.hhs.fha.nhinc.docquery.adapter.proxy.AdapterDocQueryProxyObjectFactory;
@@ -64,8 +67,23 @@ public class PassthroughInboundDocQuery extends AbstractInboundDocQuery {
         Properties webContextProperties) {
 
         AdapterDocQueryProxy adapterProxy = adapterFactory.getAdapterDocQueryProxy();
-
-        return adapterProxy.respondingGatewayCrossGatewayQuery(msg, assertion);
+        Object response = adapterProxy.respondingGatewayCrossGatewayQuery(msg, assertion);
+        if (response instanceof CareQualityDocQuery){
+            CareQualityDocQuery docQuery = (CareQualityDocQuery)response;
+            if (docQuery.getCareQualitySoapHeader()!=null){
+                webContextProperties.put(NhincConstants.CARE_QUALITY_KEY, docQuery.getCareQualitySoapHeader());
+            }
+            return docQuery.getAdhocQueryResponse();
+        }else{
+            return (AdhocQueryResponse)response;
+        }
+        // CareQualityDocQuery docResponse = (CareQualityDocQuery)
+        // adapterProxy.respondingGatewayCrossGatewayQuery(msg,assertion);
+        //return adapterProxy.respondingGatewayCrossGatewayQuery(msg, assertion);
+        /* if (docResponse.getCareQualitySoapHeader()!=null){
+            webContextProperties.put(NhincConstants.CARE_QUALITY_KEY, docResponse.getCareQualitySoapHeader());
+        }*/
+        //return docResponse.getAdhocQueryResponse();
     }
 
 }

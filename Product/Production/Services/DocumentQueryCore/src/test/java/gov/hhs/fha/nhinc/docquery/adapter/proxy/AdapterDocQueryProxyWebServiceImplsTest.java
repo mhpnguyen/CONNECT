@@ -26,10 +26,12 @@
  */
 package gov.hhs.fha.nhinc.docquery.adapter.proxy;
 
+import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+
+import gov.hhs.fha.nhin.carequality.CareQualityDocQuery;
 import gov.hhs.fha.nhinc.common.nhinccommon.AssertionType;
 import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
 import gov.hhs.fha.nhinc.webserviceproxy.WebServiceProxyHelper;
-import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
@@ -48,8 +50,7 @@ public class AdapterDocQueryProxyWebServiceImplsTest {
 
     @Test
     public void hasDefaultAdapterHelper() {
-        for (int i = 0; i < proxies.length; ++i) {
-            BaseAdapterDocQueryProxy impl = proxies[i];
+        for (BaseAdapterDocQueryProxy impl : proxies) {
             assertNotNull(impl.getAdapterHelper());
         }
     }
@@ -57,16 +58,22 @@ public class AdapterDocQueryProxyWebServiceImplsTest {
     @SuppressWarnings("unchecked")
     @Test
     public void adapterHelperCreatesErrorResponse() throws Exception {
-        for (int i = 0; i < proxies.length; ++i) {
-            BaseAdapterDocQueryProxy impl = proxies[i];
+        for (BaseAdapterDocQueryProxy impl : proxies) {
             WebServiceProxyHelper proxyMock = mock(WebServiceProxyHelper.class);
             when(proxyMock.getAdapterEndPointFromConnectionManager(anyString())).thenThrow(RuntimeException.class);
             when(proxyMock.getEndPointFromConnectionManagerByAdapterAPILevel(anyString(), any(NhincConstants.ADAPTER_API_LEVEL.class))).thenThrow(RuntimeException.class);
             impl.setWebServiceProxyHelper(proxyMock);
             AdapterHelper helper = mock(AdapterHelper.class);
             impl.setAdapterHelper(helper);
-            AdhocQueryResponse response = impl.respondingGatewayCrossGatewayQuery(null, null);
-            assertEquals(response, helper.createErrorResponse());
+            Object response = impl.respondingGatewayCrossGatewayQuery(null, null);
+            if (response instanceof CareQualityDocQuery) {
+                CareQualityDocQuery careResponse = (CareQualityDocQuery) response;
+                assertEquals(careResponse.getAdhocQueryResponse(), helper.createErrorResponse());
+            } else {
+                AdhocQueryResponse queryResponse = (AdhocQueryResponse) response;
+                assertEquals(queryResponse, helper.createErrorResponse());
+            }
+
         }
     }
 

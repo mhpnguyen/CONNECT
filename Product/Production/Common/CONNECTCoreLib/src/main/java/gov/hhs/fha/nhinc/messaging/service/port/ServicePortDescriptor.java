@@ -54,4 +54,6 @@ public interface ServicePortDescriptor<T> {
      *         <code>null</code>.
      */
     String getSOAPBindingVersion();
+
+    Object getCustomSoapHeader();
 }

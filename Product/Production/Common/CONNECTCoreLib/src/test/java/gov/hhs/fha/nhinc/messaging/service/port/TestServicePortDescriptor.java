@@ -60,4 +60,15 @@ public class TestServicePortDescriptor implements ServicePortDescriptor<TestServ
     public String getSOAPBindingVersion() {
         return SOAPBinding.SOAP12HTTP_BINDING;
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor#getCustomSoapHeader()
+     */
+    @Override
+    public Object getCustomSoapHeader() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

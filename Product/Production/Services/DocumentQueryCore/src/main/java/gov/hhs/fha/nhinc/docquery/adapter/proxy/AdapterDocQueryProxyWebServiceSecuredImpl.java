@@ -26,6 +26,9 @@
  */
 package gov.hhs.fha.nhinc.docquery.adapter.proxy;
 
+import org.w3c.dom.Element;
+import gov.hhs.fha.nhin.carequality.CareQualityDocQuery;
+import gov.hhs.fha.nhin.carequality.CareQualityDummy;
 import gov.hhs.fha.nhinc.adapterdocquerysecured.AdapterDocQuerySecuredPortType;
 import gov.hhs.fha.nhinc.aspect.AdapterDelegationEvent;
 import gov.hhs.fha.nhinc.common.nhinccommon.AssertionType;
@@ -37,8 +40,12 @@ import gov.hhs.fha.nhinc.messaging.client.CONNECTClientFactory;
 import gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor;
 import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
 import gov.hhs.fha.nhinc.nhinclib.NullChecker;
+import java.util.Map;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.headers.Header;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +63,7 @@ public class AdapterDocQueryProxyWebServiceSecuredImpl extends BaseAdapterDocQue
      * @return Adapter apiLevel implementation to be used (a0 or a1 level).
      */
     public ServicePortDescriptor<AdapterDocQuerySecuredPortType> getServicePortDescriptor(
-            final NhincConstants.ADAPTER_API_LEVEL apiLevel) {
+        final NhincConstants.ADAPTER_API_LEVEL apiLevel) {
         return new AdapterDocQuerySecuredServicePortDescriptor();
     }
 
@@ -69,14 +76,16 @@ public class AdapterDocQueryProxyWebServiceSecuredImpl extends BaseAdapterDocQue
      */
     @AdapterDelegationEvent(beforeBuilder = AdhocQueryRequestDescriptionBuilder.class, afterReturningBuilder = AdhocQueryResponseDescriptionBuilder.class, serviceType = "Document Query", version = "")
     @Override
-    public AdhocQueryResponse respondingGatewayCrossGatewayQuery(final AdhocQueryRequest msg,
-            final AssertionType assertion) {
+    public CareQualityDocQuery respondingGatewayCrossGatewayQuery(final AdhocQueryRequest msg,
+        final AssertionType assertion) {
         AdhocQueryResponse response = null;
+        CareQualityDocQuery queryResponse = new CareQualityDocQuery();
         String url;
         try {
+            LOG.debug("Prepare to call docQuery Adapter");
             // get the Adopter Endpoint URL
             url = getEndPointFromConnectionManagerByAdapterAPILevel(assertion,
-                    NhincConstants.ADAPTER_DOC_QUERY_SECURED_SERVICE_NAME);
+                NhincConstants.ADAPTER_DOC_QUERY_SECURED_SERVICE_NAME);
 
             // Call the service
             if (NullChecker.isNotNullish(url)) {
@@ -84,23 +93,39 @@ public class AdapterDocQueryProxyWebServiceSecuredImpl extends BaseAdapterDocQue
                     LOG.error("Message was null");
                 } else {
                     final ServicePortDescriptor<AdapterDocQuerySecuredPortType> portDescriptor = getServicePortDescriptor(
-                            NhincConstants.ADAPTER_API_LEVEL.LEVEL_a0);
+                        NhincConstants.ADAPTER_API_LEVEL.LEVEL_a0);
 
                     final CONNECTClient<AdapterDocQuerySecuredPortType> client = CONNECTClientFactory.getInstance()
-                            .getCONNECTClientSecured(portDescriptor, url, assertion);
+                        .getCONNECTClientSecured(portDescriptor, url, assertion);
 
                     response = (AdhocQueryResponse) client.invokePort(AdapterDocQuerySecuredPortType.class,
-                            "respondingGatewayCrossGatewayQuery", msg);
+                        "respondingGatewayCrossGatewayQuery", msg);
+                    // Retrieve soapheader
+                    Client clientProxy = ClientProxy.getClient(client.getPort());
+                    Map<String, Object> responseContext = clientProxy.getResponseContext();
+                    // Alternative. retrieve Header.list inside reponseContext. (org.apache.cxf.binding.soap.SoapHeader)
+                    Object careQuality = responseContext.get(NhincConstants.CARE_QUALITY_KEY);
+                    LOG.debug("Done retrieving adapter doc query repsonse");
+                    if (careQuality != null) {
+                        // Element element = (Element) careQuality;
+                        Header element = (Header) careQuality;
+                        String eleVal = ((Element) element.getObject()).getFirstChild().getNodeValue();
+                        LOG.debug("Respnse from adapter client version 1 {}", eleVal);
+                        CareQualityDummy dummySoapHeader = new CareQualityDummy();
+                        dummySoapHeader.setReason(eleVal);
+                        queryResponse.setCareQualitySoapHeader(dummySoapHeader);
+                    }
+
                 }
             } else {
                 LOG.error("Failed to call the web service (" + NhincConstants.ADAPTER_DOC_QUERY_SECURED_SERVICE_NAME
-                        + ").  The URL is null.");
+                    + ").  The URL is null.");
             }
         } catch (final Exception ex) {
             LOG.error("Error sending Adapter Doc Query Secured message: " + ex.getMessage(), ex);
             response = getAdapterHelper().createErrorResponse();
         }
-
-        return response;
+        queryResponse.setAdhocQueryResponse(response);
+        return queryResponse;
     }
 }

@@ -57,7 +57,7 @@ public class SOAPHeaderHandler implements SOAPHandler<SOAPMessageContext> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.xml.ws.handler.soap.SOAPHandler#getHeaders()
      */
     @Override
@@ -68,7 +68,7 @@ public class SOAPHeaderHandler implements SOAPHandler<SOAPMessageContext> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.xml.ws.handler.Handler#handleMessage(javax.xml.ws.handler.MessageContext)
      */
     @Override
@@ -87,6 +87,7 @@ public class SOAPHeaderHandler implements SOAPHandler<SOAPMessageContext> {
 
             if (isOutboundMessage) {
                 addMustUnderstandAttribute(oHeader);
+                addCareQualitySoapHeader(oHeader);
             }
         } catch (SOAPException e) {
             LOG.error("Unable to handle message: {}", e.getLocalizedMessage());
@@ -94,6 +95,16 @@ public class SOAPHeaderHandler implements SOAPHandler<SOAPMessageContext> {
         }
 
         return true;
+    }
+
+    /**
+     * Only add careQualityHeader if detect. otherwise, it doesn't do anything
+     *
+     * @param oHeader
+     */
+    private void addCareQualitySoapHeader(SOAPHeader oHeader) {
+        LOG.debug("Nothing in here");
+
     }
 
     /**
@@ -117,13 +128,13 @@ public class SOAPHeaderHandler implements SOAPHandler<SOAPMessageContext> {
 
         // Steps that need to be performed
         SOAPElement oMessageIdElem = getFirstChild(oHeader, NhincConstants.WS_SOAP_HEADER_MESSAGE_ID,
-                NhincConstants.WS_ADDRESSING_URL);
+            NhincConstants.WS_ADDRESSING_URL);
         if (oMessageIdElem != null) {
             oMessageIdElem.setTextContent(messageId);
         } else {
             SOAPFactory soapFactory = SOAPFactory.newInstance();
             oMessageIdElem = soapFactory.createElement(NhincConstants.WS_SOAP_HEADER_MESSAGE_ID, "",
-                    NhincConstants.WS_ADDRESSING_URL);
+                NhincConstants.WS_ADDRESSING_URL);
             oMessageIdElem.setTextContent(messageId);
 
             if (oHeader != null) {
@@ -216,11 +227,11 @@ public class SOAPHeaderHandler implements SOAPHandler<SOAPMessageContext> {
 
     private void addMustUnderstandAttribute(SOAPHeader oHeader) throws SOAPException {
         SOAPElement action = getFirstChild(oHeader, NhincConstants.WS_SOAP_HEADER_ACTION,
-                NhincConstants.WS_ADDRESSING_URL);
+            NhincConstants.WS_ADDRESSING_URL);
 
         if (action != null && !action.hasAttribute(NhincConstants.WS_SOAP_ATTR_MUSTUNDERSTAND)) {
             QName mustUnderstandQ = new QName(NhincConstants.WS_SOAP_ENV_URL,
-                    NhincConstants.WS_SOAP_ATTR_MUSTUNDERSTAND, NhincConstants.WS_SOAP_ENV_PREFIX);
+                NhincConstants.WS_SOAP_ATTR_MUSTUNDERSTAND, NhincConstants.WS_SOAP_ENV_PREFIX);
             action.addAttribute(mustUnderstandQ, Boolean.TRUE.toString());
         }
     }

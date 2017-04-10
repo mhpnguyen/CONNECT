@@ -26,17 +26,30 @@
  */
 package gov.hhs.fha.nhinc.docquery._30.nhin;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.namespace.QName;
+import org.apache.cxf.jaxb.JAXBDataBinding;
+import gov.hhs.fha.nhin.carequality.CareQualityDummy;
 import gov.hhs.fha.nhinc.common.nhinccommon.AssertionType;
 import gov.hhs.fha.nhinc.docquery.inbound.InboundDocQuery;
 import gov.hhs.fha.nhinc.messaging.server.BaseService;
+import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
 import gov.hhs.fha.nhinc.nhinclib.NhincConstants.UDDI_SPEC_VERSION;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 import javax.xml.ws.WebServiceContext;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import org.apache.cxf.headers.Header;
 
 public class DocQueryImpl extends BaseService {
 
     private InboundDocQuery inboundDocQuery;
+    private static final Logger LOG = LoggerFactory.getLogger(DocQueryImpl.class);
 
     public DocQueryImpl(InboundDocQuery inboundDocQuery) {
         this.inboundDocQuery = inboundDocQuery;
@@ -47,7 +60,39 @@ public class DocQueryImpl extends BaseService {
         if (assertion != null) {
             assertion.setImplementsSpecVersion(UDDI_SPEC_VERSION.SPEC_3_0.toString());
         }
-
-        return inboundDocQuery.respondingGatewayCrossGatewayQuery(body, assertion, getWebContextProperties(context));
+        // This property also hold carequality from adapter level
+        Properties properties = getWebContextProperties(context);
+        AdhocQueryResponse response = inboundDocQuery.respondingGatewayCrossGatewayQuery(body, assertion, properties);
+        /*
+         * context.getMessageContext().put(NhincConstants.CARE_QUALITY_KEY,
+         * properties.get(NhincConstants.CARE_QUALITY_KEY));
+         */
+        setHeaderForContext(context, properties);
+        return response;
     }
+
+    private void setHeaderForContext(WebServiceContext context, Properties properties) {
+
+        List<Header> headers = (List<Header>) context.getMessageContext().get(Header.HEADER_LIST);
+        if (headers == null) {
+            headers = new ArrayList<>();
+        }
+        // retrieve careQuality soapheader from adapter level. We can move into common class to detect from all adapters
+        // need better way to cast this object since it fails when null is return
+        CareQualityDummy careQualityHeader = (CareQualityDummy) properties.get(NhincConstants.CARE_QUALITY_KEY);
+        try {
+            Header adapterResult = new Header(new QName("uri:carequalityResultFromAdapter", "dummy"),
+                careQualityHeader.getReason(), new JAXBDataBinding(String.class));
+            headers.add(adapterResult);
+            LOG.debug("Result comming from adapter level {}", careQualityHeader.getReason());
+            context.getMessageContext().put(Header.HEADER_LIST, headers);
+        } catch (JAXBException e) {
+            LOG.error("uanble to parse result {}", e.getLocalizedMessage(), e);
+
+        }
+
+
+    }
+
+
 }

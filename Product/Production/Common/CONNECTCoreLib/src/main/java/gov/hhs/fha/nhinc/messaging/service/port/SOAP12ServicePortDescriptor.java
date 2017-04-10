@@ -38,4 +38,15 @@ public abstract class SOAP12ServicePortDescriptor<T> implements ServicePortDescr
         return SOAPBinding.SOAP12HTTP_BINDING;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor#getCustomSoapHeader()
+     */
+    @Override
+    public Object getCustomSoapHeader() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

@@ -38,4 +38,15 @@ public abstract class SOAP11ServicePortDescriptor<T> implements ServicePortDescr
         return SOAPBinding.SOAP11HTTP_BINDING;
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor#getCustomSoapHeader()
+     */
+    @Override
+    public Object getCustomSoapHeader() {
+
+        return null;
+    }
+
 }

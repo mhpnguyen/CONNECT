@@ -69,8 +69,8 @@ public class StandardInboundDocQuery extends AbstractInboundDocQuery {
      */
     @Override
     @InboundProcessingEvent(beforeBuilder = AdhocQueryRequestDescriptionBuilder.class,
-        afterReturningBuilder = AdhocQueryResponseDescriptionBuilder.class, serviceType = "Document Query",
-        version = "")
+    afterReturningBuilder = AdhocQueryResponseDescriptionBuilder.class, serviceType = "Document Query",
+    version = "")
     public AdhocQueryResponse respondingGatewayCrossGatewayQuery(AdhocQueryRequest msg, AssertionType assertion,
         Properties webContextProperties) {
 
@@ -114,7 +114,8 @@ public class StandardInboundDocQuery extends AbstractInboundDocQuery {
     }
 
     private AdhocQueryResponse sendToAdapter(AdhocQueryRequest msg, AssertionType assertion) {
-        return adapterFactory.getAdapterDocQueryProxy().respondingGatewayCrossGatewayQuery(msg, assertion);
+        return (AdhocQueryResponse) adapterFactory.getAdapterDocQueryProxy().respondingGatewayCrossGatewayQuery(msg,
+            assertion);
     }
 
     protected String getLocalHomeCommunityId() {
