@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ public abstract class BaseAdapterDocRetrieveProxy implements AdapterDocRetrieveP
      * @return The endpoint URL.
      * @throws ConnectionManagerException A ConnectionManagerException if one occurs.
      */
-    String getEndPointFromConnectionManagerByAdapterAPILevel(AssertionType assertion, String serviceName) throws ConnectionManagerException {
+    public String getEndPointFromConnectionManagerByAdapterAPILevel(AssertionType assertion, String serviceName) throws ConnectionManagerException {
         String url = null;
         //get the Implments Spec version from the assertion
         if ((assertion != null) && (assertion.getImplementsSpecVersion() != null)) {
@@ -76,14 +76,14 @@ public abstract class BaseAdapterDocRetrieveProxy implements AdapterDocRetrieveP
     /**
      * @return the oProxyHelper
      */
-    final WebServiceProxyHelper getoProxyHelper() {
+    public WebServiceProxyHelper getoProxyHelper() {
         return oProxyHelper;
     }
 
     /**
      * @param oProxyHelper the oProxyHelper to set
      */
-    final void setoProxyHelper(WebServiceProxyHelper oProxyHelper) {
+    public void setoProxyHelper(WebServiceProxyHelper oProxyHelper) {
         this.oProxyHelper = oProxyHelper;
     }
 }

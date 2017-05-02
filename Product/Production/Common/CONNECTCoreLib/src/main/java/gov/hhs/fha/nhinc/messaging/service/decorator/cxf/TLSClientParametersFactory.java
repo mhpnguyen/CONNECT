@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,8 +26,9 @@
  */
 package gov.hhs.fha.nhinc.messaging.service.decorator.cxf;
 
-import gov.hhs.fha.nhinc.callback.openSAML.CertificateManager;
-import gov.hhs.fha.nhinc.callback.openSAML.CertificateManagerImpl;
+import gov.hhs.fha.nhinc.callback.opensaml.CertificateManager;
+import gov.hhs.fha.nhinc.callback.opensaml.CertificateManagerImpl;
+
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,7 +26,8 @@
  */
 package gov.hhs.fha.nhinc.callback.purposeuse;
 
-import gov.hhs.fha.nhinc.callback.openSAML.CallbackProperties;
+import gov.hhs.fha.nhinc.callback.opensaml.CallbackProperties;
+
 import gov.hhs.fha.nhinc.properties.IPropertyAcessor;
 import gov.hhs.fha.nhinc.properties.PropertyAccessException;
 import org.jmock.Expectations;

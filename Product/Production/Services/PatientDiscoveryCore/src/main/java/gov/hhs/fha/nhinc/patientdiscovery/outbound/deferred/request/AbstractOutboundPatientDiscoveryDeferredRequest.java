@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,7 @@ import org.hl7.v3.PRPAIN201305UV02;
 public abstract class AbstractOutboundPatientDiscoveryDeferredRequest implements
     OutboundPatientDiscoveryDeferredRequest {
 
-    abstract PatientDiscoveryDeferredRequestAuditLogger getPatientDiscoveryDeferredAuditLogger();
+    public abstract PatientDiscoveryDeferredRequestAuditLogger getPatientDiscoveryDeferredAuditLogger();
 
     protected void auditRequest(PRPAIN201305UV02 request, AssertionType assertion, NhinTargetSystemType target) {
 

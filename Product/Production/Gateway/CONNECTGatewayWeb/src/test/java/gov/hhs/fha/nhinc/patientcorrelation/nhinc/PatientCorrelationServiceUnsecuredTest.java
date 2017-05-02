@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ public class PatientCorrelationServiceUnsecuredTest {
                 oneOf(mockFactory).createPatientCorrelationService();
                 will(returnValue(mockService));
 
-                oneOf(mockService).addPatientCorrelation(with(same(request)), with(any(AssertionType.class)));
+                oneOf(mockService).addPatientCorrelation(with(same(request)), with(aNull(AssertionType.class)));
                 will(returnValue(expectedResponse));
 
             }
@@ -85,7 +85,7 @@ public class PatientCorrelationServiceUnsecuredTest {
                 oneOf(mockFactory).createPatientCorrelationService();
                 will(returnValue(mockService));
 
-                oneOf(mockService).retrievePatientCorrelations(with(same(request)), with(any(AssertionType.class)));
+                oneOf(mockService).retrievePatientCorrelations(with(same(request)), with(aNull(AssertionType.class)));
                 will(returnValue(expectedResponse));
 
             }

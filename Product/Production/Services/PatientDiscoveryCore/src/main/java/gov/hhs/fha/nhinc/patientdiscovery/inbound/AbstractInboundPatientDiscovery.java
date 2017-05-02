@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,10 +36,10 @@ import org.hl7.v3.PRPAIN201306UV02;
 
 public abstract class AbstractInboundPatientDiscovery implements InboundPatientDiscovery {
 
-    abstract PRPAIN201306UV02 process(PRPAIN201305UV02 body, AssertionType assertion, Properties webContextProperties)
+    public abstract PRPAIN201306UV02 process(PRPAIN201305UV02 body, AssertionType assertion, Properties webContextProperties)
         throws PatientDiscoveryException;
 
-    abstract PatientDiscoveryAuditLogger getAuditLogger();
+    public abstract PatientDiscoveryAuditLogger getAuditLogger();
 
     /**
      * Method that processes the Patient Discovery request

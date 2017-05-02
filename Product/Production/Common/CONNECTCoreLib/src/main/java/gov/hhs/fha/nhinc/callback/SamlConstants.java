@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,6 +51,11 @@ public class SamlConstants {
     public static final String USER_SYST_PROP = "userRoleCodeSystem";
     public static final String USER_SYST_NAME_PROP = "userRoleCodeSystemName";
     public static final String USER_DISPLAY_PROP = "userRoleCodeDisplayName";
+    public static final String URN_OASIS_NAMES = "urn:oasis:names:tc:SAML:1.1:nameid-format:entity";
+    public static final String SECURITY_ASSERTION_SPPROVIDEDID = "Security/Assertion/Issuer/@SPProvidedID";
+    public static final String SECURITY_ASSERTION_ISSUER_FORMAT = "SOAP header element Security/Assertion/Issuer/@Format  =";
+    public static final String SECURITY_ASSERTION_NAME_QUALIFIER = "Security/Assertion/Issuer/@NameQualifier";
+    public static final String SECURITY_ASSERTION_SPNAME_QUALIFIER = "Security/Assertion/Issuer/@SPNameQualifier";
     public static final String AUTHN_INSTANT_PROP = "authnInstant";
     public static final String AUTHN_SESSION_INDEX_PROP = "authnSessionIndex";
     public static final String AUTHN_CONTEXT_CLASS_PROP = "authnContextClass";

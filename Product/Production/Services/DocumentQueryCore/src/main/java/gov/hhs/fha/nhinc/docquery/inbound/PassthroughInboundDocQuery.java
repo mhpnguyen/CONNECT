@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ public class PassthroughInboundDocQuery extends AbstractInboundDocQuery {
      * @return
      */
     @Override
-    AdhocQueryResponse processDocQuery(AdhocQueryRequest msg, AssertionType assertion, String communityID,
+    public AdhocQueryResponse processDocQuery(AdhocQueryRequest msg, AssertionType assertion, String communityID,
         Properties webContextProperties) {
 
         AdapterDocQueryProxy adapterProxy = adapterFactory.getAdapterDocQueryProxy();

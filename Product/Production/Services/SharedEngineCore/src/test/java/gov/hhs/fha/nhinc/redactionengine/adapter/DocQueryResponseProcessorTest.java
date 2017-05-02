@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1394,8 +1394,8 @@ public class DocQueryResponseProcessorTest {
             };
             context.checking(new Expectations() {
                 {
-                    one(mockPatientConsentHelper).retrievePatientConsentbyDocumentId(with(any(String.class)),
-                            with(any(String.class)), with(any(String.class)));
+                    oneOf(mockPatientConsentHelper).retrievePatientConsentbyDocumentId(with(aNull(String.class)),
+                        with(aNull(String.class)), with(any(String.class)));
                 }
             });
             PatientPreferencesType patientPreferences = processor.retrievePatientPreferencesForDocument(extObject);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -188,7 +188,7 @@ public class AsyncMessageProcessHelperTest {
         context.checking(new Expectations() {
             {
                 exactly(1).of(mockDao).save(with(any(AsyncMsgRecord.class)));
-                exactly(1).of(mockDao).queryByMessageIdAndDirection(with(any(String.class)), with(any(String.class)));
+                exactly(1).of(mockDao).queryByMessageIdAndDirection(with(any(String.class)), with(aNull(String.class)));
                 will(returnValue(returnMockRecords()));
             }
         });

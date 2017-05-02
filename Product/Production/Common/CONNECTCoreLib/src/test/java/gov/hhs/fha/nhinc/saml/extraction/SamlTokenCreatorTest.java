@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -398,7 +398,7 @@ public class SamlTokenCreatorTest {
         authz.setAction("TestSaml");
         authz.setDecision("Permit");
         authz.setEvidence(createSamlAuthzDecisionStatemnetEvidenceType());
-        authz.setResource("https://158.147.185.168:8181/SamlReceiveService/SamlProcessWS");
+        authz.setResource("https://1.1.1.1:8181/SamlReceiveService/SamlProcessWS");
         return authz;
     }
 

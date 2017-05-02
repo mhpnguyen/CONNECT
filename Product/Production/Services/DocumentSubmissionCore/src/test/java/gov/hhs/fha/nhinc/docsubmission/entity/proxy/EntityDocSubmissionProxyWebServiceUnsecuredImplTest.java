@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -105,9 +105,10 @@ public class EntityDocSubmissionProxyWebServiceUnsecuredImplTest {
     private void expectMockCONNECTClient() throws Exception {
         context.checking(new Expectations() {
             {
+                // TODO: Using "anything()" to match "Object..." due to JMock upgrade
                 oneOf(mockCONNECTClient).invokePort(with(any(Class.class)),
                         with(any(String.class)),
-                        with(any(RespondingGatewayProvideAndRegisterDocumentSetRequestType.class)));
+                        with(anything()));
                 will(returnValue(createValidRegistryResponse()));
             }
         });

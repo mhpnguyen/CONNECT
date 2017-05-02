@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -79,7 +79,7 @@ public class StandardInboundPatientDiscovery extends AbstractInboundPatientDisco
     }
 
     @Override
-    PRPAIN201306UV02 process(PRPAIN201305UV02 body, AssertionType assertion, Properties webContextProperties)
+    public PRPAIN201306UV02 process(PRPAIN201305UV02 body, AssertionType assertion, Properties webContextProperties)
         throws PatientDiscoveryException {
 
         PRPAIN201306UV02 response = patientDiscoveryProcessor.process201305(body, assertion);
@@ -92,7 +92,7 @@ public class StandardInboundPatientDiscovery extends AbstractInboundPatientDisco
      * @see gov.hhs.fha.nhinc.patientdiscovery.inbound.AbstractInboundPatientDiscovery#getAuditLogger()
      */
     @Override
-    PatientDiscoveryAuditLogger getAuditLogger() {
+    public PatientDiscoveryAuditLogger getAuditLogger() {
         return auditLogger;
     }
 

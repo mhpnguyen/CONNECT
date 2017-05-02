@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -95,7 +95,7 @@ public class StandardInboundDocQuery extends AbstractInboundDocQuery {
      * @return
      */
     @Override
-    AdhocQueryResponse processDocQuery(AdhocQueryRequest msg, AssertionType assertion, String requestCommunityID,
+    public AdhocQueryResponse processDocQuery(AdhocQueryRequest msg, AssertionType assertion, String requestCommunityID,
         Properties webContextProperties) {
 
         AdhocQueryResponse resp;

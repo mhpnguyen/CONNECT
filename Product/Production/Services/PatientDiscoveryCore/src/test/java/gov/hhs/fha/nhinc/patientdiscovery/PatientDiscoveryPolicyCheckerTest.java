@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -181,8 +181,8 @@ public class PatientDiscoveryPolicyCheckerTest {
 
         context.checking(new Expectations() {
             {
-                oneOf(mockPolicyEngineProxy).checkPolicy(with(any(CheckPolicyRequestType.class)),
-                        with(any(AssertionType.class)));
+                oneOf(mockPolicyEngineProxy).checkPolicy(with(aNull(CheckPolicyRequestType.class)),
+                        with(aNull(AssertionType.class)));
                 will(returnValue(response));
             }
         });
@@ -215,8 +215,8 @@ public class PatientDiscoveryPolicyCheckerTest {
 
         context.checking(new Expectations() {
             {
-                oneOf(mockPolicyEngineProxy).checkPolicy(with(any(CheckPolicyRequestType.class)),
-                        with(any(AssertionType.class)));
+                oneOf(mockPolicyEngineProxy).checkPolicy(with(aNull(CheckPolicyRequestType.class)),
+                        with(aNull(AssertionType.class)));
                 will(returnValue(response));
             }
         });

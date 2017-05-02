@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,13 +62,13 @@ public class PassthroughInboundPatientDiscoveryDeferredRequest extends AbstractI
     }
 
     @Override
-    MCCIIN000002UV01 process(PRPAIN201305UV02 request, AssertionType assertion) {
+    public MCCIIN000002UV01 process(PRPAIN201305UV02 request, AssertionType assertion) {
 
         return sendToAdapter(request, assertion);
     }
 
     @Override
-    PatientDiscoveryDeferredRequestAuditLogger getAuditLogger() {
+    public PatientDiscoveryDeferredRequestAuditLogger getAuditLogger() {
         return auditLogger;
     }
 

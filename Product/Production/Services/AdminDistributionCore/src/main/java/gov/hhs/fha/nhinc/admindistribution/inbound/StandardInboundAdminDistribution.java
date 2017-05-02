@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,7 +72,7 @@ public class StandardInboundAdminDistribution extends AbstractInboundAdminDistri
     }
 
     @Override
-    void processAdminDistribution(EDXLDistribution body, AssertionType assertion) {
+    public void processAdminDistribution(EDXLDistribution body, AssertionType assertion) {
         if (isPolicyValid(body, assertion)) {
             auditRequestToAdapter(body, assertion);
             sendToAdapter(body, assertion, adminUtils, adapterFactory);

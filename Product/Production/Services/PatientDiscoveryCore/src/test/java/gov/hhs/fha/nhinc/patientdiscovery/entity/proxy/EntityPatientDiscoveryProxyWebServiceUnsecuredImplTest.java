@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -187,8 +187,9 @@ public class EntityPatientDiscoveryProxyWebServiceUnsecuredImplTest {
                     .mock(RespondingGatewayPRPAIN201306UV02ResponseType.class);
             context.checking(new Expectations() {
                 {
+                    // TODO: Using "anything()" to match "Object..." due to JMock upgrade
                     atLeast(1).of(mockCONNECTClient).invokePort(with(any(Class.class)), with(any(String.class)),
-                            with(any(EntityPatientDiscoveryPortType.class)));
+                            with(anything()));
                     will(returnValue(mockResponse));
                 }
             });

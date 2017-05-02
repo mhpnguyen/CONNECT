@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.connectopensource</groupId>
         <artifactId>Services</artifactId>
-        <version>4.8.0-SNAPSHOT</version>
+        <version>5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>DocumentRetrieveCore</artifactId>
@@ -41,12 +41,6 @@
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>DocumentRetrieveWebservices</artifactId>
-        </dependency>
-
-        <!-- CXF -->
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-api</artifactId>
         </dependency>
 
         <!-- Spring Framework -->

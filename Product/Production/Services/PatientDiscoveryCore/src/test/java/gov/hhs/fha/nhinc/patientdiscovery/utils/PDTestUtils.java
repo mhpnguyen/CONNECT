@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -152,7 +152,7 @@ public class PDTestUtils {
     private SamlAuthzDecisionStatementType createValidSamlAuthzDecisionStatement() {
         SamlAuthzDecisionStatementType samlAuthzDecision = new SamlAuthzDecisionStatementType();
         samlAuthzDecision.setDecision("Permit");
-        samlAuthzDecision.setResource("https://158.147.185.168:8181/SamlReceiveService/SamlProcessWS");
+        samlAuthzDecision.setResource("https://1.1.1.1:8181/SamlReceiveService/SamlProcessWS");
         samlAuthzDecision.setAction("TestSaml");
 
         SamlAuthzDecisionStatementEvidenceType evidence = new SamlAuthzDecisionStatementEvidenceType();
@@ -161,7 +161,7 @@ public class PDTestUtils {
         assertion.setIssueInstant("009-04-16T13:10:39.093Z");
         assertion.setVersion("2.0");
         assertion.setIssuerFormat("urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName");
-        assertion.setIssuer("CN=SAML User,OU=Harris,O=HITS,L=Melbourne,ST=FL,C=US");
+        assertion.setIssuer("CN=SAML User,OU=connect,O=FHA,L=Melbourne,ST=FL,C=US");
 
         SamlAuthzDecisionStatementEvidenceConditionsType conditions = new SamlAuthzDecisionStatementEvidenceConditionsType();
         conditions.setNotBefore("2009-04-16T13:10:39.093Z");
@@ -183,8 +183,8 @@ public class PDTestUtils {
         samlAuthnStatement.setAuthInstant("2009-04-16T13:15:39Z");
         samlAuthnStatement.setAuthInstant("987");
         samlAuthnStatement.setAuthContextClassRef("urn:oasis:names:tc:SAML:2.0:ac:classes:X509");
-        samlAuthnStatement.setSubjectLocalityAddress("158.147.158.168");
-        samlAuthnStatement.setSubjectLocalityDNSName("cs.dunder.com");
+        samlAuthnStatement.setSubjectLocalityAddress("1.1.1.1");
+        samlAuthnStatement.setSubjectLocalityDNSName("connectopensource.org");
         return samlAuthnStatement;
     }
 

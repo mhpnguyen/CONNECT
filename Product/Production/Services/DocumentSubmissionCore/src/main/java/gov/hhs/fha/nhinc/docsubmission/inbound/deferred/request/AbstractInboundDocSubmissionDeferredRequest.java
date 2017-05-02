@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ import java.util.Properties;
 
 public abstract class AbstractInboundDocSubmissionDeferredRequest implements InboundDocSubmissionDeferredRequest {
 
-    abstract XDRAcknowledgementType processDocSubmissionRequest(ProvideAndRegisterDocumentSetRequestType body,
+    public abstract XDRAcknowledgementType processDocSubmissionRequest(ProvideAndRegisterDocumentSetRequestType body,
         AssertionType assertion);
 
     private DocSubmissionDeferredRequestAuditLogger auditLogger = null;
