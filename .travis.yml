@@ -1,0 +1,17 @@
+language: java
+jdk:
+  - oraclejdk7
+dist: trusty
+sudo: required
+services:
+  - mysql
+addons:
+  apt:
+    packages:
+    - mysql-server-5.6
+    - mysql-client-core-5.6
+    - mysql-client-5.6
+before_install:
+  - mysql -u root -e 'source /Product/DBScripts/nhincdb/nhincdb.sql'
+  - mysql -u root -e 'source /Product/DBScripts/nhincdb/populateTestData.sql'
+script: mvn -version
