@@ -827,16 +827,8 @@
                 </ns2:endpointConfiguration>
               </ns2:endpointConfigurationList>
             </ns2:endpoint>
-          <endpoint xmlns="urn:uddi-org:api_v3">
-<name>admindistservice</name>
-<endpointConfigurationList>
-<endpointConfiguration>
-<url>https://localhost:8181/mock</url>
-<version>1.0</version>
-</endpointConfiguration>
-</endpointConfigurationList>
-</endpoint>
-</ns2:endpointList>
+
+          </ns2:endpointList>
           <ns2:targetRegion>US-NY</ns2:targetRegion>
           <ns2:targetRegion>US-VA</ns2:targetRegion>
         </organization>
