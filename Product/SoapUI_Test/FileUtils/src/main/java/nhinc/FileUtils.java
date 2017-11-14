@@ -632,7 +632,7 @@ public class FileUtils {
     }
 
     private static Element getFirstElementOf(Element target, String nameOf) {
-        return (Element) target.getElementsByTagName(nameOf).item(0);
+        return (Element) target.getElementsByTagNameNS("*",nameOf).item(0);
     }
 
     private static String getTextContentOf(Element target, String nameOf) {
@@ -647,7 +647,7 @@ public class FileUtils {
         NodeList listElements = null;
         Element rootElement = getFirstElementOf(parent, ofList);
         if (rootElement != null) {
-            listElements = rootElement.getElementsByTagName(ofName);
+            listElements = rootElement.getElementsByTagNameNS("*",ofName);
             if (null == listElements) {
                 log.warn(MessageFormat.format("''{0}-{1}'' is null", ofList, ofName));
             }
@@ -806,7 +806,7 @@ public class FileUtils {
         Element orgRoot = (Element) doc.getElementsByTagName("organizationList").item(0);
         NodeList organizationList = null;
         if (orgRoot != null) {
-            organizationList = orgRoot.getElementsByTagName("organization");
+            organizationList = orgRoot.getElementsByTagNameNS("*","organization");
             if (organizationList != null) {
                 log.info(MessageFormat.format("organization-list: {0}", organizationList.getLength()));
             } else {
