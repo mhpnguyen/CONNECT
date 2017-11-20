@@ -19,6 +19,7 @@
     "mysql -u root -e 'source Product/DBScripts/nhincdb/nhincdb.sql'",
     "mysql -u root -e 'source Product/DBScripts/nhincdb/populateTestData.sql'"
   ],
+  "install":"mvn dependency:resolve",
   "script": "mvn clean install -PPD,DQ,DR,DS,AD,X12,Direct",
   "group": "stable",
   "os": "linux"
