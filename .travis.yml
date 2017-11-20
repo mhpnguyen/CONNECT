@@ -1,6 +1,6 @@
 {
   "language": "java",
-  "jdk": "oraclejdk7",
+  "jdk": "oraclejdk8",
   "dist": "trusty",
   "sudo": "required",
   "services": [
