@@ -23,7 +23,7 @@
     "mysql -u root -e 'source Product/DBScripts/nhincdb/populateTestData.sql'"
   ],
   "install":"true",
-  "before_script":"echo "USE mysql;\nUPDATE user SET password=PASSWORD('NHIE-Gateway') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root"
+    "before_script":[echo "USE mysql;\nUPDATE user SET password=PASSWORD('NHIE-Gateway') WHERE user='root';\nFLUSH PRIVILEGES;\n | mysql -u root"],
   "script": "mvn clean install -PPD,DQ,DR,DS,AD,X12,Direct -Dmaven.test.skip=true",
   "group": "stable",
   "os": "linux"
