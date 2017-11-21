@@ -24,7 +24,7 @@
   ],
   "install":"true",
     "before_script":[echo "USE mysql;\nUPDATE user SET password=PASSWORD('NHIE-Gateway') WHERE user='root';\nFLUSH PRIVILEGES;\n | mysql -u root"],
-  "script": "mvn clean install -PPD,DQ,DR,DS,AD,X12,Direct -Dmaven.test.skip=true",
+  "script": "mvn clean install -PPD,DQ,DR,DS,AD,X12,Direct -Dmaven.test.skip=true -Dmysql.root.password=NHIE-Gateway",
   "group": "stable",
   "os": "linux"
 }
