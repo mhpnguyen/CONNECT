@@ -1,4 +1,4 @@
-CONNECT
+CONNECT [![Build Status on Travis:](https://travis-ci.org/mhpnguyen/CONNECT.svg?branch=CONN-1931-Travis)](https://travis-ci.org/mhpnguyen/CONNECT)
 =======
 
 CONNECT is an open source software solution that supports health information exchange - both locally and at the national level. CONNECT uses Nationwide Health Information Network standards and governance to make sure that health information exchanges are compatible with other exchanges being set up throughout the country.
