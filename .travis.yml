@@ -23,7 +23,7 @@
     "mysql -u root -e 'source Product/DBScripts/nhincdb/populateTestData.sql'"
   ],
   "install":"true",
-  "script": "mvn clean install -PDQ,DR,DS,AD,X12,Direct",
+  "script": "mvn clean install -PDQ,DR,DS,AD,X12,Direct -DskipTests=true -Dmaven.javadoc.skip=true -B -V",
   "group": "stable",
   "os": "linux"
 }
