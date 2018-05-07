@@ -25,6 +25,7 @@
     <cxf:bus>
         <cxf:features>
             <p:policies />
+    <!--  <cxf:logging/> -->
         </cxf:features>
     </cxf:bus>
 
@@ -44,10 +45,15 @@
 
         <jaxws:inInterceptors>
             <ref bean="securityConfigInInterceptor" />
+            <!--  <ref bean="customLog"/> -->
         </jaxws:inInterceptors>
+        <jaxws:outInterceptors>
+            <!-- <ref bean="customLog"/> -->
+        </jaxws:outInterceptors>
         <jaxws:handlers>
             <ref bean="SOAPHeaderHandler" />
             <ref bean="TransactionHandler" />
+            <ref bean="customLog" />
         </jaxws:handlers>
     </jaxws:endpoint>
 

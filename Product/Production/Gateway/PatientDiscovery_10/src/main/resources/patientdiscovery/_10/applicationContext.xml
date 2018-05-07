@@ -137,4 +137,5 @@
 
     <bean id="SOAPHeaderHandler" class="gov.hhs.fha.nhinc.callback.SOAPHeaderHandler" />
     <bean id="TransactionHandler" class="gov.hhs.fha.nhinc.logging.transaction.TransactionHandler" />
+    <bean id="customLog" class="gov.hhs.fha.nhinc.messaging.server.interceptor.LogInterceptor"/>
 </beans>
