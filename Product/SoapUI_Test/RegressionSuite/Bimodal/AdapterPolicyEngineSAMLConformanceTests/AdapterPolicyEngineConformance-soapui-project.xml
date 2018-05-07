@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project abortOnError="false" name="AdapterPolicyEngineSAMLConformance" resourceRoot="${projectDir}" runType="SEQUENTIAL" soapui-version="5.1.2" activeEnvironment="Default" id="aca54cb9-6961-4653-8292-46090d92536c" xmlns:con="http://eviware.com/soapui/config">
+<con:soapui-project abortOnError="false" name="AdapterPolicyEngineSAMLConformance" resourceRoot="${projectDir}" runType="SEQUENTIAL" soapui-version="4.5.1" activeEnvironment="Default" id="aca54cb9-6961-4653-8292-46090d92536c" xmlns:con="http://eviware.com/soapui/config">
   <con:settings/>
   <con:interface anonymous="optional" bindingName="{urn:gov:hhs:fha:nhinc:entitydocquery}EntityDocQueryBindingSoap" definition="${projectDir}/../../../target/wsdl/EntityDocQuery.wsdl" name="EntityDocQueryBindingSoap" soapVersion="1_2" type="wsdl" wsaVersion="NONE" xsi:type="con:WsdlInterface" id="29dbd9c3-d6d5-4155-85af-de4ad6ec8a92" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
@@ -15006,7 +15006,7 @@ context.setGatewayStandard(true);</con:tearDownScript>
     </con:property>
     <con:property>
       <con:name>GatewayPropDir</con:name>
-      <con:value></con:value>
+      <con:value/>
     </con:property>
     <con:property>
       <con:name>Gender</con:name>

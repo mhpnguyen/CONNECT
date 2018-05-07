@@ -28,6 +28,12 @@
             <bean class="${patientDiscovery.inboundPatientDiscovery}" />
         </property>
     </bean>
+    <bean id="nhinPDNJ"
+        class="gov.hhs.fha.nhinc.patientdiscovery._10.gateway.ws.NhinPatientDiscoveryNJ">
+        <property name="inboundPatientDiscovery">
+            <bean class="${patientDiscovery.inboundPatientDiscovery}" />
+        </property>
+    </bean>
 
     <bean id="entityPDSecured"
         class="gov.hhs.fha.nhinc.patientdiscovery._10.gateway.ws.EntityPatientDiscoverySecured">
