@@ -112,7 +112,7 @@ public class HOKSAMLAssertionBuilder extends SAMLAssertionBuilder {
      */
     @Override
     public Element build(final CallbackProperties properties) {
-        LOG.debug("SamlCallbackHandler.build() -- Start");
+        LOG.debug("HOKSAMLAssertionBuilder.build() -- Start");
         Element signedAssertion = null;
         try {
             final X509Certificate certificate = certificateManager.getDefaultCertificate();
@@ -158,11 +158,12 @@ public class HOKSAMLAssertionBuilder extends SAMLAssertionBuilder {
         final PublicKey publicKey) {
         Element assertionElement = null;
         try {
+            LOG.debug("Minh-New Version");
             final Signature signature = OpenSAML2ComponentBuilder.getInstance().createSignature(certificate, privateKey,
                 publicKey);
             final SamlAssertionWrapper wrapper = new SamlAssertionWrapper(assertion);
-
-            wrapper.setSignature(signature, SignatureConstants.ALGO_ID_DIGEST_SHA1);
+            // wrapper.setSignature(signature, SignatureConstants.ALGO_ID_DIGEST_SHA1);
+            wrapper.setSignature(signature, SignatureConstants.ALGO_ID_DIGEST_SHA256);
             final MarshallerFactory marshallerFactory = XMLObjectProviderRegistrySupport.getMarshallerFactory();
             final Marshaller marshaller = marshallerFactory.getMarshaller(wrapper.getSamlObject());
             assertionElement = marshaller.marshall(wrapper.getSamlObject());
@@ -191,7 +192,7 @@ public class HOKSAMLAssertionBuilder extends SAMLAssertionBuilder {
 
             sIssuer = certificate != null ?
                 certificate.getIssuerX500Principal().getName() :
-                PropertyAccessor.getInstance().getProperty(PROPERTY_FILE_NAME, PROPERTY_SAML_ISSUER_NAME, NhincConstants.SAML_DEFAULT_ISSUER_NAME);
+                    PropertyAccessor.getInstance().getProperty(PROPERTY_FILE_NAME, PROPERTY_SAML_ISSUER_NAME, NhincConstants.SAML_DEFAULT_ISSUER_NAME);
         }
 
         if (StringUtils.isBlank(sIssuer)) {

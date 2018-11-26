@@ -80,7 +80,7 @@ public class CXFSAMLCallbackHandler implements CallbackHandler {
      */
     @Override
     public void handle(final Callback[] callbacks) throws IOException, UnsupportedCallbackException {
-        LOG.trace("CXFSAMLCallbackHandler.handle begin");
+        LOG.debug("CXFSAMLCallbackHandler.handle begin Minh");
 
         for (final Callback callback : callbacks) {
             if (callback instanceof SAMLCallback) {
@@ -104,8 +104,8 @@ public class CXFSAMLCallbackHandler implements CallbackHandler {
                         NhincConstants.SIGNATURE_PROPERTIES_STRING));
                     oSAMLCallback.setIssuerCrypto(issuerCrypto);
                     oSAMLCallback.setSamlVersion(Version.SAML_20);
-                    oSAMLCallback.setSignatureAlgorithm(SPConstants.SHA1);
-                    oSAMLCallback.setSignatureDigestAlgorithm(SPConstants.SHA1);
+                    oSAMLCallback.setSignatureAlgorithm(SPConstants.RSA_SHA1);
+                    oSAMLCallback.setSignatureDigestAlgorithm(SPConstants.SHA256);
 
                     final SamlTokenCreator creator = new SamlTokenCreator();
                     final CallbackProperties properties = new CallbackMapProperties(addMessageProperties(
@@ -118,7 +118,7 @@ public class CXFSAMLCallbackHandler implements CallbackHandler {
             }
         }
 
-        LOG.trace("CXFSAMLCallbackHandler.handle end");
+        LOG.debug("CXFSAMLCallbackHandler.handle end");
 
 
     }

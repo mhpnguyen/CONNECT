@@ -12,7 +12,7 @@
   <modelVersion>4.0.0</modelVersion>
   
   <modules>
-    <module>jboss7</module>
+    <!-- <module>jboss7</module> -->
   </modules>
 
   <reporting>
@@ -916,7 +916,7 @@
     <profile>
       <id>jboss7</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <activeByDefault>false</activeByDefault>
       </activation>
       <modules>
         <module>jboss7</module>

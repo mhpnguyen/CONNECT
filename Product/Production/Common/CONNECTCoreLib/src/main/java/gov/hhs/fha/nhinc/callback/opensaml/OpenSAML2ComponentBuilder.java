@@ -660,7 +660,8 @@ public class OpenSAML2ComponentBuilder implements SAMLCompontentBuilder {
         final Signature signature = OpenSAMLUtil.buildSignature();
         signature.setSigningCredential(credential);
 
-        signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA1);
+        // signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA1);
+        signature.setSignatureAlgorithm(SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA512);
 
         signature.setCanonicalizationAlgorithm(SignatureConstants.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
         try {
