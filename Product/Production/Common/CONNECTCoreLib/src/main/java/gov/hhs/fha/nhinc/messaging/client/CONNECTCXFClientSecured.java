@@ -26,8 +26,9 @@
  */
 package gov.hhs.fha.nhinc.messaging.client;
 
+import gov.hhs.fha.nhinc.messaging.service.decorator.cxf.WsSecurityServiceEndpointDecorator;
+
 import gov.hhs.fha.nhinc.common.nhinccommon.AssertionType;
-import gov.hhs.fha.nhinc.cryptostore.StoreUtil;
 import gov.hhs.fha.nhinc.messaging.service.decorator.HttpHeaderServiceEndpointDecorator;
 import gov.hhs.fha.nhinc.messaging.service.decorator.SAMLServiceEndpointDecorator;
 import gov.hhs.fha.nhinc.messaging.service.decorator.cxf.WsAddressingServiceEndpointDecorator;
@@ -38,15 +39,13 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author akong
- *
  */
 public class CONNECTCXFClientSecured<T> extends CONNECTCXFClient<T> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CONNECTCXFClientSecured.class);
 
     CONNECTCXFClientSecured(ServicePortDescriptor<T> portDescriptor, String url, AssertionType assertion) {
-        super(portDescriptor, url, assertion,
-            new CachingCXFSecuredServicePortBuilder<>(portDescriptor, StoreUtil.getGatewayAlias(url)));
+        super(portDescriptor, url, assertion, new CachingCXFSecuredServicePortBuilder<>(portDescriptor));
         decorateEndpoint(assertion, url, portDescriptor.getWSAddressingAction(), null, null);
 
         serviceEndpoint.configure();
@@ -54,10 +53,8 @@ public class CONNECTCXFClientSecured<T> extends CONNECTCXFClient<T> {
 
     CONNECTCXFClientSecured(ServicePortDescriptor<T> portDescriptor, AssertionType assertion, String url,
         String targetHomeCommunityId, String serviceName) {
-        super(portDescriptor, url, assertion,
-            new CachingCXFSecuredServicePortBuilder<>(portDescriptor, StoreUtil.getGatewayAlias(url)));
-        decorateEndpoint(assertion, url, portDescriptor.getWSAddressingAction(), targetHomeCommunityId,
-            serviceName);
+        super(portDescriptor, url, assertion, new CachingCXFSecuredServicePortBuilder<>(portDescriptor));
+        decorateEndpoint(assertion, url, portDescriptor.getWSAddressingAction(), targetHomeCommunityId, serviceName);
 
         serviceEndpoint.configure();
     }
@@ -74,6 +71,7 @@ public class CONNECTCXFClientSecured<T> extends CONNECTCXFClient<T> {
         serviceEndpoint = new WsAddressingServiceEndpointDecorator<>(serviceEndpoint, wsAddressingTo,
             wsAddressingActionId, assertion);
         serviceEndpoint = new HttpHeaderServiceEndpointDecorator<>(serviceEndpoint, assertion);
+        serviceEndpoint = new WsSecurityServiceEndpointDecorator<>(serviceEndpoint);
     }
 
     /*
